@@ -42,13 +42,35 @@ function checkGameOver() {
     return true;
 }
 
+function checkWin(){
+    for(let r = 0 ; r < 4 ; r++){
+        for(let c = 0 ; c < 4 ; c++){
+            if(board[r][c] === 2048){
+                alert("🎉 You Win!");
+                return true;
+            }                
+        }
+    }
+    return false;
+}
+
 function setUpBoard() {
     let tiles = document.querySelectorAll('.tile');
     let index = 0;
 
     for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 4; c++) {
-            tiles[index].innerText = board[r][c] === 0 ? '' : board[r][c];
+            let value = board[r][c];
+            let tile = tiles[index];
+
+            tile.innerText = value === 0 ? '' : value;
+
+            tile.className = 'tile';
+
+            if(value !== 0){
+                tile.classList.add(`tile-${value}`);
+            }
+
             index++;
         }
     }
@@ -106,10 +128,6 @@ function moveLeft() {
         }
 
         board[r] = row;
-        if (checkGameOver()) {
-            alert("Game Over! Try again.");
-        }
-
     }
 
     const newBoard = JSON.stringify(board);
@@ -119,6 +137,11 @@ function moveLeft() {
 
     setUpBoard();
     updateScore();
+    checkWin();
+        if (checkGameOver()) {
+            alert("Game Over! Try again.");
+        }
+
 }
 
 function moveRight() {
@@ -127,7 +150,7 @@ function moveRight() {
     for (let r = 0; r < 4; r++) {
         let row = [...board[r]].reverse();
 
-        row = board[r].filter(val => val !== 0);
+        row = row.filter(val => val !== 0);
 
         for (let c = 0; c < row.length - 1; c++) {
             if (row[c] === row[c + 1]) {
@@ -137,7 +160,7 @@ function moveRight() {
             }
         }
 
-        row = board[r].filter(val => val !== 0);
+        row = row.filter(val => val !== 0);
 
         while (row.length < 4) {
             row.push(0);
@@ -153,6 +176,7 @@ function moveRight() {
 
     setUpBoard();
     updateScore();
+    checkWin();
     if (checkGameOver()) {
         alert("Game Over! Try again.");
     }
@@ -195,6 +219,7 @@ function moveUp() {
     }
     setUpBoard();
     updateScore();
+    checkWin();
     if (checkGameOver()) {
         alert("Game Over! Try again.");
     }
@@ -239,6 +264,7 @@ function moveDown() {
     }
     setUpBoard();
     updateScore();
+    checkWin();
     if (checkGameOver()) {
         alert("Game Over! Try again.");
     }
