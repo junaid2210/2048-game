@@ -9,6 +9,21 @@ window.onload = function () {
     setUpBoard();
     generateRandomTile();
     generateRandomTile();
+    updateScore();
+}
+
+let score = 0;
+let highScore = localStorage.getItem("highScore") || 0;
+
+function updateScore() {
+    document.getElementById("Score").innerText = score;
+
+    if(score > highScore){
+        highScore = score;
+        localStorage.setItem("highScore" , highScore);
+    }
+
+    document.getElementById("high-score").innerText = highScore;
 }
 
 function setUpBoard() {
@@ -63,6 +78,7 @@ function moveLeft() {
         for (let c = 0; c < row.length - 1; c++) {
             if (row[c] === row[c + 1]) {
                 row[c] *= 2;
+                score += row[c];
                 row[c + 1] = 0;
             }
         }
@@ -82,6 +98,7 @@ function moveLeft() {
     }
 
     setUpBoard();
+    updateScore();
 }
 
 function moveRight() {
@@ -95,6 +112,7 @@ function moveRight() {
         for (let c = 0; c < row.length - 1; c++) {
             if (row[c] === row[c + 1]) {
                 row[c] *= 2;
+                score += row[c];
                 row[c + 1] = 0;
             }
         }
@@ -114,6 +132,7 @@ function moveRight() {
     }
 
     setUpBoard();
+    updateScore();
 }
 
 function moveUp() {
@@ -132,6 +151,7 @@ function moveUp() {
         for(let i = 0 ; i < col.length - 1 ; i++){
             if(col[i] === col[i+1]){
                 col[i] *= 2;
+                score += col[i];
                 col[i+1] = 0;
             }
         }
@@ -151,6 +171,7 @@ function moveUp() {
         generateRandomTile();
     }
     setUpBoard();
+    updateScore();
 }
 
 function moveDown() {
@@ -169,6 +190,7 @@ function moveDown() {
         for(let i = 0 ; i < col.length - 1 ; i++){
             if(col[i] === col[i+1]){
                 col[i] *= 2;
+                score += col[i];
                 col[i+1] = 0;
             }
         }
@@ -190,4 +212,5 @@ function moveDown() {
         generateRandomTile();
     }
     setUpBoard();
+    updateScore();
 }
